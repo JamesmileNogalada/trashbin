@@ -122,6 +122,9 @@ function updateDetection() {
   if (currentFill >= 100) {
     document.getElementById("alertBox").classList.remove("hidden");
   }
+
+  checkFullNotification();
+  displayTablePage(currentPage);
 }
 
 setInterval(updateDetection, 5000);
@@ -132,7 +135,7 @@ const wasteChart = new Chart(document.getElementById("wasteChart").getContext("2
   data: {
     labels: ["Plastic", "Organic", "Paper", "Metal", "Glass"],
     datasets: [{
-      data: [0, 0, 0, 0, 0],
+      data: [0, 0, 0, 0, 0, 0],
       backgroundColor: ["#3498db", "#27ae60", "#f1c40f", "#e67e22", "#9b59b6"]
     }]
   },
@@ -182,7 +185,6 @@ function sendNotification(message) {
   }
 }
 
-// Modify the detection logic to trigger notification
 function checkFullNotification() {
   if (currentFill >= 100) {
     sendNotification("The trash bin is full! Please empty it.");
@@ -190,57 +192,38 @@ function checkFullNotification() {
     sendNotification(`Bin reached ${threshold}% capacity. Schedule collection soon.`);
   }
 }
-checkFullNotification();
 
-  if (currentFill >= 100) {
-    document.getElementById("alertBox").classList.remove("hidden");
-  }
-{
-  // 🔔 New: trigger browser notification
-  checkFullNotification();}
+// Pagination logic
+let currentPage = 1;
+const rowsPerPage = 5;
 
-// Call this inside your updateDetection after alert logic
-function updateDetection() {
-  const item = sampleItems[Math.floor(Math.random() * sampleItems.length)];
-  document.getElementById("detectionPreview").innerText = "Detected: " + item;
+function displayTablePage(page) {
+  const tableBody = document.querySelector("#historyTable tbody");
+  const rows = Array.from(tableBody.querySelectorAll("tr"));
 
-  currentFill += itemContributions[item];
-  if (currentFill > 100) currentFill = 100;
-
-  currentWeight = (currentFill * 0.05).toFixed(1);
-
-  document.getElementById("fillLevel").style.width = `${currentFill}%`;
-  document.getElementById("fillLevel").innerText = `${currentFill}%`;
-  document.getElementById("weight").innerText = `${currentWeight} kg`;
-  document.getElementById("lastOpened").innerText = new Date().toLocaleTimeString();
-
-  totalItems++;
-  categoryCounts[item]++;
-  document.getElementById("totalItems").innerText = totalItems;
-
-  const row = document.createElement("tr");
-  row.innerHTML = `
-    <td>${new Date().toLocaleTimeString()}</td>
-    <td>${item}</td>
-    <td>${currentFill}%</td>
-    <td>${currentWeight} kg</td>
-  `;
-  document.querySelector("#historyTable tbody").prepend(row);
-
-  wasteChart.data.datasets[0].data = Object.values(categoryCounts);
-  wasteChart.update();
-
-  const topCategory = Object.keys(categoryCounts).reduce((a, b) =>
-    categoryCounts[a] > categoryCounts[b] ? a : b
-  );
-  document.getElementById("topItem").innerText = topCategory;
-
-  updateInsights();
-
-  if (currentFill >= 100) {
-    document.getElementById("alertBox").classList.remove("hidden");
-  }
-
-  // 🔔 New: trigger browser notification
-  checkFullNotification();
+  rows.forEach((row, index) => {
+    row.style.display =
+      index >= (page - 1) * rowsPerPage && index < page * rowsPerPage
+        ? "table-row"
+        : "none";
+  });
 }
+
+document.getElementById("prevBtn").addEventListener("click", () => {
+  if (currentPage > 1) {
+    currentPage--;
+    displayTablePage(currentPage);
+  }
+});
+
+document.getElementById("nextBtn").addEventListener("click", () => {
+  const tableBody = document.querySelector("#historyTable tbody");
+  const rows = tableBody.querySelectorAll("tr");
+  if (currentPage * rowsPerPage < rows.length) {
+    currentPage++;
+    displayTablePage(currentPage);
+  }
+});
+
+// Keep table in sync
+setInterval(() => displayTablePage(currentPage), 1000);
