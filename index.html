@@ -32,7 +32,7 @@
     </div>
 
     <!-- Insights -->
-    <div class="card">
+    <div class="card highlight">
       <h2>Insights</h2>
       <ul>
         <li>Average Fill Level: <span id="avgFill">0%</span></li>
@@ -49,14 +49,14 @@
     </div>
 
     <!-- Waste Sorting Statistics -->
-    <div class="card">
+    <div class="card highlight">
       <h2>Waste Sorting Statistics</h2>
       <canvas id="wasteChart"></canvas>
       <div class="status">Total Items: <span id="totalItems">0</span></div>
     </div>
 
     <!-- Trash History -->
-    <div class="card">
+    <div class="card wide-card">
       <h2>Trash History</h2>
       <table id="historyTable">
         <thead>
@@ -69,6 +69,10 @@
         </thead>
         <tbody></tbody>
       </table>
+      <div class="pagination">
+        <button id="prevBtn">⬅ Previous</button>
+        <button id="nextBtn">Next ➡</button>
+      </div>
     </div>
   </div>
 
@@ -76,3 +80,9 @@
   <script src="script.js"></script>
 </body>
 </html>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+
