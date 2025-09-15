@@ -1,0 +1,124 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #f4f6f9;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background: #2c3e50;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.card {
+  background: white;
+  border-radius: 10px;
+  padding: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.status {
+  font-size: 1rem;
+  margin: 0.5rem 0;
+}
+
+.progress {
+  background: #eee;
+  border-radius: 20px;
+  overflow: hidden;
+  height: 20px;
+  margin-top: 0.5rem;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #27ae60;
+  width: 40%;
+  text-align: center;
+  color: white;
+  line-height: 20px;
+  font-size: 0.9rem;
+}
+
+canvas {
+  width: 100% !important;
+  max-width: 400px;
+  margin: auto;
+  display: block;
+}
+
+.image-preview {
+  background: #f0f0f0;
+  border: 2px dashed #ccc;
+  border-radius: 10px;
+  padding: 2rem;
+  text-align: center;
+  color: #666;
+}
+
+.threshold {
+  margin-top: 1rem;
+}
+
+.threshold input {
+  width: 60px;
+  padding: 0.3rem;
+}
+
+.alert {
+  background: #e74c3c;
+  color: white;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-radius: 5px;
+  font-weight: bold;
+}
+
+.alert.hidden {
+  display: none;
+}
+
+#historyTable {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+
+#historyTable th,
+#historyTable td {
+  border: 1px solid #ddd;
+  padding: 0.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+#historyTable th {
+  background: #2c3e50;
+  color: white;
+}
+
+.card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem 0;
+}
+
+.card ul li {
+  margin: 0.3rem 0;
+  font-size: 0.95rem;
+}

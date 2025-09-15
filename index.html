@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Smart Trash Bin Dashboard</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header>
+    <h1>AI-Enabled Smart Trash Bin Dashboard</h1>
+  </header>
+
+  <div class="container">
+    <!-- Sensor Status -->
+    <div class="card">
+      <h2>Sensor Status</h2>
+      <div class="status">Bin Fill Level:</div>
+      <div class="progress">
+        <div class="progress-bar" id="fillLevel">40%</div>
+      </div>
+      <div class="status">Weight: <span id="weight">2.3 kg</span></div>
+      <div class="status">Last Opened: <span id="lastOpened">Just now</span></div>
+      <div class="threshold">
+        <label for="thresholdInput">Set Threshold (%):</label>
+        <input type="number" id="thresholdInput" min="10" max="100" value="80"/>
+      </div>
+      <div id="alertBox" class="alert hidden">
+        ⚠️ Trash bin reached threshold!
+        <button id="notifyBtn">Notify Collector</button>
+      </div>
+    </div>
+
+    <!-- Insights -->
+    <div class="card">
+      <h2>Insights</h2>
+      <ul>
+        <li>Average Fill Level: <span id="avgFill">0%</span></li>
+        <li>Predicted Time to Full: <span id="timeToFull">Calculating...</span></li>
+        <li>Most Common Item: <span id="topItem">None</span></li>
+      </ul>
+      <canvas id="trendChart"></canvas>
+    </div>
+
+    <!-- Image Detection -->
+    <div class="card">
+      <h2>AI Image Detection</h2>
+      <div class="image-preview" id="detectionPreview">No image detected yet.</div>
+    </div>
+
+    <!-- Waste Sorting Statistics -->
+    <div class="card">
+      <h2>Waste Sorting Statistics</h2>
+      <canvas id="wasteChart"></canvas>
+      <div class="status">Total Items: <span id="totalItems">0</span></div>
+    </div>
+
+    <!-- Trash History -->
+    <div class="card">
+      <h2>Trash History</h2>
+      <table id="historyTable">
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Item</th>
+            <th>Fill Level</th>
+            <th>Weight</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
