@@ -122,3 +122,37 @@ canvas {
   margin: 0.3rem 0;
   font-size: 0.95rem;
 }
+
+/* Highlighted cards */
+.card.highlight {
+  grid-column: span 2;
+  border: 2px solid #2980b9;
+  box-shadow: 0 4px 10px rgba(41, 128, 185, 0.2);
+  transform: scale(1.02);
+}
+
+.card.highlight h2 {
+  font-size: 1.4rem;
+  color: #2980b9;
+}
+
+/* Pagination buttons */
+.pagination {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.pagination button {
+  padding: 0.4rem 0.8rem;
+  border: none;
+  background: #2980b9;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination button:hover {
+  background: #1f5d82;
+}
