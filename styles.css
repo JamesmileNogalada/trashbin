@@ -14,7 +14,6 @@ header {
 
 .container {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 1rem;
   padding: 1rem;
 }
@@ -47,8 +46,7 @@ h2 {
 
 .progress-bar {
   height: 100%;
-  background: #27ae60;
-  width: 40%;
+  width: 0%;
   text-align: center;
   color: white;
   line-height: 20px;
@@ -93,21 +91,20 @@ canvas {
   display: none;
 }
 
-#historyTable {
+table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 0.5rem;
 }
 
-#historyTable th,
-#historyTable td {
+th, td {
   border: 1px solid #ddd;
   padding: 0.5rem;
   text-align: center;
   font-size: 0.9rem;
 }
 
-#historyTable th {
+th {
   background: #2c3e50;
   color: white;
 }
@@ -123,25 +120,36 @@ canvas {
   font-size: 0.95rem;
 }
 
-/* Highlighted cards */
-.card.highlight {
-  grid-column: span 2;
-  border: 2px solid #2980b9;
-  box-shadow: 0 4px 10px rgba(41, 128, 185, 0.2);
-  transform: scale(1.02);
+/* Bin layout */
+.bin-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1rem;
 }
 
-.card.highlight h2 {
-  font-size: 1.4rem;
-  color: #2980b9;
+.card.bio { border: 2px solid #27ae60; }
+.card.nonbio { border: 2px solid #2980b9; }
+.card.hazardous { border: 2px solid #e67e22; }
+
+.progress-bar.bio { background: #27ae60; }
+.progress-bar.nonbio { background: #2980b9; }
+.progress-bar.hazardous { background: #e67e22; }
+
+/* Emoji log */
+.emoji-log {
+  margin-top: 1rem;
+  font-size: 2rem;
+  display: flex;
+  justify-content: center;
 }
 
-/* Pagination buttons */
+/* Pagination */
 .pagination {
   margin-top: 0.5rem;
   display: flex;
   justify-content: center;
   gap: 0.5rem;
+  align-items: center;
 }
 
 .pagination button {
@@ -155,4 +163,24 @@ canvas {
 
 .pagination button:hover {
   background: #1f5d82;
+}
+
+/* Tips */
+.card.tips {
+  border: 2px solid #8e44ad;
+  text-align: center;
+}
+
+.card.tips button {
+  margin-top: 0.5rem;
+  padding: 0.5rem 1rem;
+  background: #8e44ad;
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.card.tips button:hover {
+  background: #732d91;
 }
