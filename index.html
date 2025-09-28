@@ -8,117 +8,162 @@
 </head>
 <body>
   <header>
-    <h1>AI-Enabled Smart Trash Bin Dashboard</h1>
+    <div class="header-inner">
+      <h1>AI Smart Trash Bin Dashboard</h1>
+    </div>
   </header>
 
-  <div class="container">
-    <!-- AI Image Detection -->
-    <div class="card">
-      <h2>AI Image Detection</h2>
-      <div class="image-preview" id="detectionPreview">No image detected yet.</div>
-      <div id="emojiLog" class="emoji-log"></div>
-    </div>
+  <main class="container">
+    <!-- Top row: Camera / Machine Status / Solar Panel -->
+    <section class="top-row">
+      <div class="card camera-card">
+        <h3>Camera View</h3>
+        <div class="camera-preview" id="cameraPreview">
+          <div class="camera-placeholder">📷 Camera Live</div>
+        </div>
+      </div>
 
-    <!-- Three Bins -->
-    <div class="bin-container">
-      <!-- Biodegradable Bin -->
-      <div class="card bio">
-        <h2>Biodegradable Bin 🌱</h2>
-        <div class="status">Bin Fill Level:</div>
+      <div class="card status-card">
+        <h3>Machine Status</h3>
+        <div class="status-row">
+          <div class="status-text">Status: <span id="machineStatus" class="status-on">ON</span></div>
+          <button id="toggleMachine" class="btn">Press</button>
+        </div>
+        <div class="small-note">Last ping: <span id="lastPing">--</span></div>
+      </div>
+
+      <div class="card solar-card">
+        <h3>Solar Panel</h3>
+        <div class="solar-power">Power: <strong id="solarPower">196W</strong></div>
+        <div class="small-note">Panel health: <span id="solarHealth">Good</span></div>
+      </div>
+    </section>
+
+    <!-- Bins row -->
+    <section class="bin-container">
+      <!-- Biodegradable -->
+      <div class="card bin-card bio">
+        <h3>Biodegradable Bin 🌱</h3>
+        <div class="status">Bin Fill Level</div>
         <div class="progress"><div class="progress-bar bio" id="bioFillLevel">0%</div></div>
-        <div class="threshold">
-          <label for="bioThreshold">Set Threshold (%):</label>
-          <input type="number" id="bioThreshold" min="10" max="100" value="80"/>
+
+        <div class="controls">
+          <label>Threshold: <input type="number" id="bioThreshold" min="10" max="100" value="80"/>%</label>
         </div>
-        <div id="bioAlert" class="alert hidden">⚠️ Biodegradable bin reached threshold! 
-          <button onclick="notifyCollector('bio')">Notify Collector</button>
+
+        <div id="bioAlert" class="alert hidden">⚠️ Biodegradable bin reached threshold!
+          <button class="btn small" onclick="notifyCollector('bio')">Notify Collector</button>
         </div>
-        <h3>Insights</h3>
-        <ul>
-          <li>Average Fill Level: <span id="bioAvgFill">0%</span></li>
-          <li>Predicted Time to Full: <span id="bioTimeToFull">Calculating...</span></li>
-          <li>Most Common Item: <span id="bioTopItem">None</span></li>
-        </ul>
-        <canvas id="bioTrendChart"></canvas>
-        <canvas id="bioPieChart"></canvas>
-        <h3>Trash History</h3>
-        <table id="bioHistory"><thead><tr><th>Time</th><th>Item</th><th>Fill Level</th></tr></thead><tbody></tbody></table>
+
+        <div class="insights">
+          <div>Average Fill: <span id="bioAvgFill">0%</span></div>
+          <div>Time to Full: <span id="bioTimeToFull">Calculating...</span></div>
+          <div>Top Item: <span id="bioTopItem">None</span></div>
+        </div>
+
+        <div class="charts-row">
+          <canvas id="bioTrendChart"></canvas>
+          <canvas id="bioPieChart"></canvas>
+        </div>
+
+        <h4>Trash History</h4>
+        <table id="bioHistory"><thead><tr><th>Time</th><th>Item</th><th>Fill</th></tr></thead><tbody></tbody></table>
         <div class="pagination">
-          <button onclick="changePage('bio','prev')">⬅ Previous</button>
+          <button onclick="changePage('bio','prev')">⬅</button>
           <span id="bioPageNum">Page 1</span>
-          <button onclick="changePage('bio','next')">Next ➡</button>
+          <button onclick="changePage('bio','next')">➡</button>
         </div>
       </div>
 
-      <!-- Non-Biodegradable Bin -->
-      <div class="card nonbio">
-        <h2>Non-Biodegradable Bin 🗑️</h2>
-        <div class="status">Bin Fill Level:</div>
+      <!-- Non-biodegradable -->
+      <div class="card bin-card nonbio">
+        <h3>Non-Biodegradable Bin 🗑️</h3>
+        <div class="status">Bin Fill Level</div>
         <div class="progress"><div class="progress-bar nonbio" id="nonBioFillLevel">0%</div></div>
-        <div class="threshold">
-          <label for="nonBioThreshold">Set Threshold (%):</label>
-          <input type="number" id="nonBioThreshold" min="10" max="100" value="80"/>
+
+        <div class="controls">
+          <label>Threshold: <input type="number" id="nonBioThreshold" min="10" max="100" value="80"/>%</label>
         </div>
-        <div id="nonBioAlert" class="alert hidden">⚠️ Non-biodegradable bin reached threshold! 
-          <button onclick="notifyCollector('nonBio')">Notify Collector</button>
+
+        <div id="nonBioAlert" class="alert hidden">⚠️ Non-biodegradable bin reached threshold!
+          <button class="btn small" onclick="notifyCollector('nonBio')">Notify Collector</button>
         </div>
-        <h3>Insights</h3>
-        <ul>
-          <li>Average Fill Level: <span id="nonBioAvgFill">0%</span></li>
-          <li>Predicted Time to Full: <span id="nonBioTimeToFull">Calculating...</span></li>
-          <li>Most Common Item: <span id="nonBioTopItem">None</span></li>
-        </ul>
-        <canvas id="nonBioTrendChart"></canvas>
-        <canvas id="nonBioPieChart"></canvas>
-        <h3>Trash History</h3>
-        <table id="nonBioHistory"><thead><tr><th>Time</th><th>Item</th><th>Fill Level</th></tr></thead><tbody></tbody></table>
+
+        <div class="insights">
+          <div>Average Fill: <span id="nonBioAvgFill">0%</span></div>
+          <div>Time to Full: <span id="nonBioTimeToFull">Calculating...</span></div>
+          <div>Top Item: <span id="nonBioTopItem">None</span></div>
+        </div>
+
+        <div class="charts-row">
+          <canvas id="nonBioTrendChart"></canvas>
+          <canvas id="nonBioPieChart"></canvas>
+        </div>
+
+        <h4>Trash History</h4>
+        <table id="nonBioHistory"><thead><tr><th>Time</th><th>Item</th><th>Fill</th></tr></thead><tbody></tbody></table>
         <div class="pagination">
-          <button onclick="changePage('nonBio','prev')">⬅ Previous</button>
+          <button onclick="changePage('nonBio','prev')">⬅</button>
           <span id="nonBioPageNum">Page 1</span>
-          <button onclick="changePage('nonBio','next')">Next ➡</button>
+          <button onclick="changePage('nonBio','next')">➡</button>
         </div>
       </div>
 
-      <!-- Hazardous Bin -->
-      <div class="card hazardous">
-        <h2>Hazardous Bin ☣️</h2>
-        <div class="status">Bin Fill Level:</div>
+      <!-- Hazardous -->
+      <div class="card bin-card hazardous">
+        <h3>Hazardous Bin ☣️</h3>
+        <div class="status">Bin Fill Level</div>
         <div class="progress"><div class="progress-bar hazardous" id="hazFillLevel">0%</div></div>
-        <div class="threshold">
-          <label for="hazThreshold">Set Threshold (%):</label>
-          <input type="number" id="hazThreshold" min="10" max="100" value="80"/>
+
+        <div class="controls">
+          <label>Threshold: <input type="number" id="hazThreshold" min="10" max="100" value="80"/>%</label>
         </div>
-        <div id="hazAlert" class="alert hidden">⚠️ Hazardous bin reached threshold! 
-          <button onclick="notifyCollector('haz')">Notify Collector</button>
+
+        <div id="hazAlert" class="alert hidden">⚠️ Hazardous bin reached threshold!
+          <button class="btn small" onclick="notifyCollector('haz')">Notify Collector</button>
         </div>
-        <h3>Insights</h3>
-        <ul>
-          <li>Average Fill Level: <span id="hazAvgFill">0%</span></li>
-          <li>Predicted Time to Full: <span id="hazTimeToFull">Calculating...</span></li>
-          <li>Most Common Item: <span id="hazTopItem">None</span></li>
-        </ul>
-        <canvas id="hazTrendChart"></canvas>
-        <canvas id="hazPieChart"></canvas>
-        <h3>Trash History</h3>
-        <table id="hazHistory"><thead><tr><th>Time</th><th>Item</th><th>Fill Level</th></tr></thead><tbody></tbody></table>
+
+        <div class="insights">
+          <div>Average Fill: <span id="hazAvgFill">0%</span></div>
+          <div>Time to Full: <span id="hazTimeToFull">Calculating...</span></div>
+          <div>Top Item: <span id="hazTopItem">None</span></div>
+        </div>
+
+        <div class="charts-row">
+          <canvas id="hazTrendChart"></canvas>
+          <canvas id="hazPieChart"></canvas>
+        </div>
+
+        <h4>Trash History</h4>
+        <table id="hazHistory"><thead><tr><th>Time</th><th>Item</th><th>Fill</th></tr></thead><tbody></tbody></table>
         <div class="pagination">
-          <button onclick="changePage('haz','prev')">⬅ Previous</button>
+          <button onclick="changePage('haz','prev')">⬅</button>
           <span id="hazPageNum">Page 1</span>
-          <button onclick="changePage('haz','next')">Next ➡</button>
+          <button onclick="changePage('haz','next')">➡</button>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Recycling Tips -->
-    <div class="card tips">
-      <h2>♻️ Recycling Tips</h2>
+    <!-- Detection preview -->
+    <section class="card detection-card">
+      <h3>Detection Preview</h3>
+      <div class="detection-area" id="detectionPreview">Waiting for detection...</div>
+      <div id="emojiLog" class="emoji-log"></div>
+    </section>
+
+    <!-- Tips card -->
+    <section class="card tips-card">
+      <h3>♻️ Recycling Tips</h3>
       <p id="tipText">Did you know? Plastic bottles can be reused as planters!</p>
-      <button onclick="showTip()">Show Another Tip</button>
-    </div>
-  </div>
+      <button class="btn" onclick="showTip()">Show Another Tip</button>
+    </section>
 
+  </main>
+
+  <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
+
 
